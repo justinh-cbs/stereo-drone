@@ -1,0 +1,80 @@
+Next:
+GTSAM python library
+put 3d points in
+put in poses
+factors to constrain them
+it will nonlinearly solve!
+particularly optimized because it likes sparsity
+
+functions we need
+add states (3d points and poses)
+add factor (this point from this pose at this pixel)
+SOLVE!
+
+factors:
+point from altitude
+intertials gyro and accel
+optical flow downward - low bar outlier rejection
+
+
+eventually:
+convert depth to mesh
+anchor to points 
+meshslams
+
+
+project goals:
+detect people, disaster relief?
+
+
+- Dense geometric image alignment:
+  (P) min_{T_21} E[D(2), T_21*D(1)]
+  - D(i) = ith depth image
+  - T_21 = transformation from frame 1 to frame 2
+         = rotation and translation between frame 1 and frame 2
+  - E[d1,d2] = error metric between two depth images
+             = (probably) sum_{i in pixels} (d1(i) - d2(i))^2
+
+
+- start with above for fixed frequency key-frames -> pure odometry / 
+  dead reconning
+  - need:
+    - non-linear / iterative solver
+      - could make custom, probably better if a good package exists
+    - problem formulation
+    - depth images from RS (or stereo)
+
+- later:
+  - integrate IMU (initial condition and/or additional term in cost 
+                   function)
+  - not fixed frequency - select key-frames, possibly even per-pixel
+    like LSD-SLAM does
+  - back-end - pose graph
+  - construct map
+
+questions:
+  - how will we deal with noisy depth image?
+
+scipi!
+ - formulate problem
+ - integrate IMU 
+    - compute delta pose, rotation translation
+    - find error between the two
+    - add to optimisation
+    have to give it derivatives?
+    test with actual images
+    write loss function
+    put that into scipy to get numerical derivatives
+
+
+    keyframes:
+    sitting still, little bit of noise, will add to drift
+    if we decide we didn't move very far, toss out image until we move far 
+
+    pose graph backend
+    loop closures
+
+    take all of that, and make some kind of map!
+
+make copy of image, shift it xy, then use appearance based error 
+average that
