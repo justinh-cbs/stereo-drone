@@ -1,0 +1,145 @@
+# version
+# INAV/MAMBAF405US_I2C 4.0.0 Dec 15 2021 / 14:43:34 (c20a9852)
+# GCC-10.2.1 20201103 (release)
+
+# start the command batch
+batch start
+
+# reset configuration to default settings
+defaults noreboot
+
+# resources
+
+# mixer
+
+mmix reset
+
+mmix 0  1.000 -1.000  1.000 -1.000
+mmix 1  1.000 -1.000 -1.000  1.000
+mmix 2  1.000  1.000  1.000  1.000
+mmix 3  1.000  1.000 -1.000 -1.000
+
+# servo mix
+
+# servo
+
+# safehome
+
+# logic
+
+# gvar
+
+# pid
+
+# feature
+feature VBAT
+feature CURRENT_METER
+feature PWM_OUTPUT_ENABLE
+
+# beeper
+
+# blackbox
+blackbox -NAV_ACC
+blackbox NAV_POS
+blackbox NAV_PID
+blackbox MAG
+blackbox ACC
+blackbox ATTI
+blackbox RC_DATA
+blackbox RC_COMMAND
+blackbox MOTORS
+
+# map
+map TREA
+
+# serial
+serial 0 0 115200 115200 0 115200
+serial 1 1 115200 115200 0 115200
+serial 3 64 115200 115200 0 115200
+serial 4 1 115200 115200 0 115200
+serial 5 0 115200 115200 0 115200
+
+# led
+
+# color
+
+# mode_color
+
+# aux
+aux 0 0 0 1550 2100
+aux 1 1 1 1700 2100
+aux 2 2 1 900 1700
+aux 3 11 2 1700 2100
+aux 4 3 2 1700 2100
+aux 5 33 2 1700 2100
+aux 6 47 3 1225 1750
+
+# adjrange
+
+# rxrange
+
+# temp_sensor
+
+# wp
+#wp 0 invalid
+
+# osd_layout
+
+# master
+set vbat_adc_channel = 2
+set rssi_adc_channel = 0
+set current_adc_channel = 1
+set acc_hardware = MPU6000
+set acczero_x = 37
+set acczero_y = -5
+set acczero_z = 110
+set accgain_x = 4082
+set accgain_y = 4106
+set accgain_z = 4023
+set rangefinder_hardware = MSP
+set opflow_hardware = MSP
+set opflow_scale =  9.469
+set align_mag = CW270FLIP
+set mag_hardware = NONE
+set baro_hardware = MSP
+set receiver_type = SERIAL
+set serialrx_provider = CRSF
+set motor_pwm_rate = 8000
+set motor_pwm_protocol = DSHOT300
+set model_preview_type = 3
+set applied_defaults = 2
+set airmode_type = THROTTLE_THRESHOLD
+set inav_allow_dead_reckoning = ON
+set debug_mode = FLOW_RAW
+set pinio_box1 = 255
+
+# profile
+profile 1
+
+
+# profile
+profile 2
+
+
+# profile
+profile 3
+
+
+# battery_profile
+battery_profile 1
+
+
+# battery_profile
+battery_profile 2
+
+
+# battery_profile
+battery_profile 3
+
+
+# restore original profile selection
+profile 1
+battery_profile 1
+
+# save configuration
+save

@@ -1,0 +1,62 @@
+Instructions for setting up the pi, flight controller, and sensors - assuming you have connected
+the "normal drone" stuff (power dist, motors, etc.) already.
+
+The pi communicates with the flight controller over GPIO 14 (TXD) and 15 (RXD). Wire 14 to the
+RX of one of the flight controller's UARTs, and 15 to the TX so you have TX -> RX on both (I used
+the UART marked TX5/RX5 on the Mamba, corresponding to UART 4 in betaflight?)
+
+11/6 Edit:
+Switched to using UART2 on pi, corresponding to GPIO 0 (TX) and 1 (RX)
+TX5/RX5 on the Mamba corresponds to UART 5 in iNav
+
+Once connected, set that UART to Serial RX in Betaflight, and from the main settings page set
+the receiver to MSP.
+
+Pi setup attempt 11/6:
+Detailing all the steps I take, so we can reproduce or at least know what not to do...
+Flashed Raspbian to SD card
+Edited wpa_supplicant for wifi
+Booted up pi
+Updated with:
+    sudo apt update
+    sudo apt update all
+
+Following YAMSPy setup instruction:
+    git clone https://github.com/ricardodeazambuja/YAMSPy.git
+    cd YAMSPy
+    sudo pip3 install .
+
+Add pi user to dialout to access serial port
+    sudo usermod -a -G dialout $USER
+
+Disable serial console, enable UART:
+    sudo raspi-config
+    interface options -> Serial Port -> No -> Yes
+
+Add UARTs to /boot/config:
+    sudo nano /boot/config.txt
+add to this file:
+    enable_uart=1
+    dtoverlay=uart2,alt=0 
+        (maybe don't need alt=0? that might be wrong but it works)
+in YAMSPy files set serial to:
+    "/dev/ttyAMA1"
+
+Flash iNav firmware with Mamba405US I2C version, version without I2C doesn't work!
+In iNAV:
+    in ports:
+        set UART5 to MSP
+    in receiver:
+        set receiver mode to MSP
+    these tabs don't seem to work on Mac, have to use linux laptop. maybe update iNav version?
+
+this worked!!!
+
+To get gpio readall to work:
+    cd /tmp
+    wget https://project-downloads.drogon.net/wiringpi-latest.deb
+    sudo dpkg -i wiringpi-latest.deb
+
+TODO:
+add details of how to enable serial port on pi
+figure out connecting sensors to flight controller and document here
